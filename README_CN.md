@@ -11,5 +11,5 @@
 # 要求 #
 最好使用python3
 
-# 壁纸示例#
+# 壁纸示例 #
 [![Zzyy0P.md.jpg](https://s2.ax1x.com/2019/07/20/Zzyy0P.md.jpg)](https://imgchr.com/i/Zzyy0P)
