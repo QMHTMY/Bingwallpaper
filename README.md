@@ -2,7 +2,7 @@
 # Description #
 -------------
 <li><a href="README_CN.md">中文版</a></li>
-Download BingWallPaper 
+Download BingWallPaper and escape the watermarking!
 
 # Usage #
 
