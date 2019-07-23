@@ -7,15 +7,14 @@
 
 # 使用 #
 	创建一个目录用以存储壁纸，类似'/home/usrname/Pictures/BingWallpapers'
-	然后修改Wallpaper_downloader.py第14行的self.save_fold为上述目录值
+	然后修改Wallpaper_downloader.py第14行的self.save_fold为上述目录值并执行(可以加入/etc/crontab)
+	实现每日自动下载。
 	$ python Wallpaper_downloader.py
 
 # 依赖 #
-	python3
-	其他包请安装
+	1.Python版本为3
+	2.其他包请安装
 	$ sudo pip3 install -r requirement.txt
-
-
 
 # 壁纸示例 #
 [![Zzyy0P.md.jpg](https://s2.ax1x.com/2019/07/20/Zzyy0P.md.jpg)](https://imgchr.com/i/Zzyy0P)
