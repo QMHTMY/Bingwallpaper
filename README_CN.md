@@ -13,7 +13,7 @@
 # 依赖 #
 	python3
 	其他包请安装
-	$ sudo pip3 install -r requiredment.txt
+	$ sudo pip3 install -r requirement.txt
 
 
 
