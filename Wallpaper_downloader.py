@@ -4,24 +4,9 @@
 #    Author: Shieber
 #    Date: 2019.07.16
 #
-#                             APACHE LICENSE
-#    Licensed under the Apache License, Version 2.0 (the "License"); you may
-#    not use this file except in compliance with the License. You may obtain
-#    a copy of the License at http://www.apache.org/licenses/LICENSE-2.0
-#    Unless required by applicable law or agreed to in writing, software
-#    distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
-#    WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
-#    License for the specific language governing permissions and limitations
-#    under the License.
-#
-#                            Function Description
 #    一键下载Bing（必应）的每日壁纸并免除掉水印。
-#
-#    Copyright 2019 
-#    All Rights Reserved!
 
 import re 
-import sys
 import datetime
 import requests
 import urllib.request 
@@ -30,11 +15,11 @@ from   bs4 import BeautifulSoup as Soup
 
 class BingWallpapersDownloader():
     def __init__(self):
-        self.root_url = ['https://cn.bing.com','https://cn.bing.com/?ensearch=1&FORM=BEHPTB']
+        self.root = ['https://cn.bing.com','https://cn.bing.com/?ensearch=1&FORM=BEHPTB']
         self.headers  = {'User-Agent':'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:68.0) Gecko/20100101 Firefox/68.0'} 
-        self.save_fold= '/home/shieber/Pictures/BingWallpapers/'
+        self.saveFolder = '/home/shieber/Pictures/BingWallpapers/'
 
-    def SetWallPaperName(self,root_url):
+    def SetWallPaperName(self,url):
         time = datetime.datetime.now()
         year = str(time.year)
         mnth = str(time.month)
@@ -43,34 +28,33 @@ class BingWallpapersDownloader():
         #prototype: /home/shieber/Pictures/BingWallpapers/Bing_cn_2019_7_16.jpeg
         #prototype: /home/shieber/Pictures/BingWallpapers/Bing_en_2019_7_16.jpeg
         if time.month < 10:
-            mnth = ''.join(['0',mnth])    #prototype:07
+            mnth = '0'+mnth    #prototype:07
 
-        if root_url==self.root_url[0]:
-            picname = ''.join([self.save_fold,'Bing','_','cn','_',year,'_',mnth,'_',day,'.jpeg'])
+        if url==self.root[0]:
+            picname = ''.join([self.saveFolder,'Bing','_','cn','_',year,'_',mnth,'_',day,'.jpeg'])
         else:
-            picname = ''.join([self.save_fold,'Bing','_','en','_',year,'_',mnth,'_',day,'.jpeg'])
+            picname = ''.join([self.saveFolder,'Bing','_','en','_',year,'_',mnth,'_',day,'.jpeg'])
 
         return picname
 
-    def GetWallPaperUrl(self,root_url):
-        home_page = requests.get(root_url,headers=self.headers)
-        if 200 == home_page.status_code:
-            home_page.encoding='utf-8'
-            soup = Soup(home_page.content,'html.parser')
-        else:
+    def GetWallPaperUrl(self,url):
+        resp = requests.get(url,headers=self.headers)
+        if 200 != resp.status_code:
             return None
+
+        resp.encoding='utf-8'
+        soup = Soup(resp.content,'html.parser')
         
-        if soup:
-            url_patn  = re.compile(r'https://.*\.com') 
-            root_url  = url_patn.search(root_url)[0]   #基准url,前缀   
-            url_contnt= soup.find('link',rel='preload')
-            href_info = url_contnt['href']             #壁纸url,后缀
-
-            picurl    = ''.join([root_url,href_info])  #国际版的root_url和中文版一样
-
-            return picurl
-        else:
+        if not soup:
             return None
+
+        patn = re.compile(r'https://.*\.com') 
+        url  = patn.search(url)[0]       #基准url,前缀   
+        cntnt= soup.find('link',rel='preload')
+        href = cntnt['href']             #壁纸url,后缀
+        picurl = ''.join([url,href])     #国际版的root_url和中文版一样
+
+        return picurl
 
     def DownloadWallPaper(self,picurl,picname):
         if not picurl:
@@ -78,13 +62,11 @@ class BingWallpapersDownloader():
 
         if not path.exists(picname):
             urllib.request.urlretrieve(picurl,filename=picname)
-        else:
-            pass
 
     def main(self):
-        for root_url in self.root_url:
-            picname = self.SetWallPaperName(root_url)
-            picurl  = self.GetWallPaperUrl(root_url)
+        for url in self.root:
+            picname = self.SetWallPaperName(url)
+            picurl  = self.GetWallPaperUrl(url)
             self.DownloadWallPaper(picurl,picname)
 
 if __name__ == "__main__":
