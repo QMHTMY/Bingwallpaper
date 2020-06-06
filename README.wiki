@@ -1,6 +1,6 @@
 = Description =
 
-[./README_CN.wiki 中文版] Download BingWallPaper while escaping the watermarking!
+[https://github.com/QMHTMY/Bingwallpaper/blob/master/README_CN.wiki 中文版] Download BingWallPaper while escaping the watermarking!
 
 = Usage =
 

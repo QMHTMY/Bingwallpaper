@@ -1,6 +1,6 @@
 = 描述 =
 
-[./README.wiki English] 一键下载Bing(必应)每日壁纸，并擦除水印。
+[https://github.com/QMHTMY/Bingwallpaper/blob/master/README.wiki English] 一键下载Bing(必应)每日壁纸，并擦除水印。
 
 = 使用 =
 
